@@ -81,8 +81,3 @@ This plugin is released under the MIT license. It is simple and easy to understa
 [More Information](http://en.wikipedia.org/wiki/MIT_License)
 
 
-## Download
-
-Releases are available for download from
-[GitHub](http://github.com/av01d/fontselect-jquery-plugin/downloads).
-
