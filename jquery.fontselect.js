@@ -157,7 +157,6 @@
 				moveToSelected: function() {
 					var font = this.$original.val().replace(/ /g, '+');
 					var $li = font ? $("li[data-value='"+ font +"']", this.$results) : $li = $('li', this.$results).first();
-					//var $li = font ? $("li[data-value='"+ font +"']", this.$results) : $li = $('li:first', this.$results);
 					this.$results.scrollTop($li.addClass('active')[0].offsetTop);
 				},
 
