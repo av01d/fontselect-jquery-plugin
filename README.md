@@ -80,9 +80,3 @@ This plugin is based on the original [Fontselect jQuery plugin](https://github.c
 This plugin is released under the MIT license. It is simple and easy to understand and places almost no restrictions on what you can do with the code.
 [More Information](http://en.wikipedia.org/wiki/MIT_License)
 
-
-## Download
-
-Releases are available for download from
-[GitHub](http://github.com/av01d/fontselect-jquery-plugin/downloads).
-

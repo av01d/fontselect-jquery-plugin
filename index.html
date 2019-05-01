@@ -52,6 +52,9 @@
 		// No system fonts, default Google fonts
 		$('#font3').fontselect({
 			systemFonts: false,
+		})
+		.on('change', function() {
+			applyFont(this.value);
 		});
 	});
 
