@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>jQuery Fontselect Plugin Example</title>
+	<link rel="stylesheet" type="text/css" href="jquery.fontselect.css">
+	<style>
+		body {
+			background-color: #fff;
+			color: #000; 
+			font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+	<script src="jquery.fontselect.js"></script>
+	<script>
+
+	function applyFont(font) {
+		console.log('You selected font: ' + font);
+
+		// Replace + signs with spaces for css
+		font = font.replace(/\+/g, ' ');
+
+		// Split font into family and weight
+		font = font.split(':');
+
+		var fontFamily = font[0];
+		var fontWeight = font[1] || 400;
+
+		// Set selected font on paragraphs
+		$('p').css({fontFamily:"'"+fontFamily+"'", fontWeight:fontWeight});
+	}
+
+	$(function(){
+		// Default
+		$('#font1')
+		.fontselect()
+		.on('change', function() {
+			applyFont(this.value);
+		});
+
+		// Default system fonts, custom Google fonts
+		$('#font2').fontselect({
+			googleFonts: ['Pacifico', 'Press+Start+2P', 'ZCOOL+KuaiLe', 'Gloria+Hallelujah', 'Changa:200', 'Changa:300', 'Changa:400', 'Changa:500', 'Changa:600', 'Changa:700', 'Changa:800'],
+			placeHolder: 'Pick a font from the list'
+		})
+		.on('change', function() {
+			applyFont(this.value);
+		});
+
+		// No system fonts, default Google fonts
+		$('#font3').fontselect({
+			systemFonts: false,
+		});
+	});
+
+	</script>
+</head>
+<body>
+	<h1>jQuery Fontselect Plugin Example</h1>
+
+	<h2>Default: system fonts and google fonts</h2>
+	<input id="font1" type="text">
+
+	<br>
+	<button type="button" onclick="$('#font1').trigger('setFont','Geo')">Select <i>Geo</i> font</button>
+	<br>
+	<button type="button" onclick="$('#font1').trigger('setFont',['Orbitron',900])">Select <i>Oribtron 900</i> font</button>
+
+	<h2>Default system fonts, custom Google fonts</h2>
+	<input id="font2" type="text">
+
+	<h2>No system fonts, default Google fonts</h2>
+	<input id="font3" type="text" value="Caudex">
+
+
+	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
+PageMaker including versions of Lorem Ipsum.</p>
+
+	</body>
+</html>
