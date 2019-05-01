@@ -9,6 +9,10 @@ navigation is built in:
 - Enter key selects on option.
 - Type a few letters to jump to the option starting with the typed letters.
 
+## Demo
+
+[Live demo](https://av01d.github.io/fontselect-jquery-plugin/index.html).
+
 ## Documentation
 
 To create a font selector simply run the plugin on a standard html input element.
