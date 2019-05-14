@@ -39,7 +39,7 @@ Fontselect has one argument, an options object that you might want to customise:
       style: 'font-select',
       placeholder: 'Select a font',
       lookahead: 2,
-		searchable: true,
+      searchable: true,
       systemFonts: ['Helvetica', 'Comic+Sans+MS'],
       googleFonts: ['Pacifico', 'Press+Start+2P', 'Changa:200', 'Changa:400', 'Changa:700']
    });
