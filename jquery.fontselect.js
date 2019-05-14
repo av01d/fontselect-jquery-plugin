@@ -1,10 +1,10 @@
 /*
- * jQuery.fontselect - A font selector for the Google Web Fonts api
- * Arjan Haverkamp, https://www.webgear.nl
+ * jQuery.fontselect - A font selector for system fonts and Google Web Fonts
+ * Made by Arjan Haverkamp, https://www.webgear.nl
  * Based on original by Tom Moor, http://tommoor.com
  * Copyright (c) 2011 Tom Moor, 2019 Arjan Haverkamp
  * MIT Licensed
- * @version 0.2
+ * @version 0.3
 */
 
 (function($){
@@ -17,6 +17,7 @@
 		var settings = {
 			style: 'font-select',
 			placeholder: 'Select a font',
+			searchable: true,
 			lookahead: 2,
 			api: 'https://fonts.googleapis.com/css?family=',
 			systemFonts: 'Arial|Helvetica+Neue|Courier+New|Times+New+Roman|Comic+Sans+MS|Impact'.split('|'),
@@ -36,6 +37,7 @@
 				this.bindEvents();
 				this.query = '';
 				this.keyActive = false;
+				this.searchBoxHeight = 0;
 
 				var font = this.$original.val();
 				if (font) {
@@ -46,32 +48,38 @@
 
 			Fontselect.prototype = {
 				keyDown: function(e) {
+
+					function stop(e) {
+						e.preventDefault();
+						e.stopPropagation();
+					}
+
 					this.keyActive = true;
 					if (e.keyCode == 27) {// Escape
-						e.preventDefault(); e.stopPropagation();
+						stop(e);
 						this.toggleDrop();
 						return;
 					}
 					if (e.keyCode == 38) {// Cursor up
-						e.preventDefault(); e.stopPropagation();
+						stop(e);
 						var $li = $('li.active', this.$results), $pli = $li.prev('li');
 						if ($pli.length > 0) {
 							$li.removeClass('active');
-							this.$results.scrollTop($pli.addClass('active')[0].offsetTop);
+							this.$results.scrollTop($pli.addClass('active')[0].offsetTop - this.searchBoxHeight);
 						}
 						return;
 					}
 					if (e.keyCode == 40) {// Cursor down
-						e.preventDefault(); e.stopPropagation();
+						stop(e);
 						var $li = $('li.active', this.$results), $nli = $li.next('li');
 						if ($nli.length > 0) {
 							$li.removeClass('active');
-							this.$results.scrollTop($nli.addClass('active')[0].offsetTop);
+							this.$results.scrollTop($nli.addClass('active')[0].offsetTop - this.searchBoxHeight);
 						}
 						return;
 					}
 					if (e.keyCode == 13) {// Enter
-						e.preventDefault(); e.stopPropagation();
+						stop(e);
 						$('li.active', this.$results).trigger('click');
 						return;
 					}
@@ -120,6 +128,21 @@
 						self.addFontLink($('li.active', self.$results).data('value'));
 					});
 
+					if (this.options.searchable) {
+						$('input',this.$search).on('keyup', function() {
+							var q = this.value.toLowerCase();
+							// Hide options that don't match query:
+							$('li', self.$results).each(function() {
+								if ($(this).text().toLowerCase().indexOf(q) == -1) {
+									$(this).hide();
+								}
+								else {
+									$(this).show();
+								}
+							})
+						})
+					}
+
 					$(document).on('click', function(e) {
 						if ($(e.target).closest('.'+self.options.style).length === 0 && self.active) {
 							self.toggleDrop();
@@ -128,20 +151,28 @@
 				},
 
 				toggleDrop: function() {
-					if (this.active) {// Make inactive
+					if (this.active) {
+						// Make inactive
 						this.$element.off('keydown keyup');
 						this.query = '';
 						this.keyActive = false;
 						this.$element.removeClass('font-select-active');
 						this.$drop.hide();
 						clearInterval(this.visibleInterval);
-					} else {// Make active
+					} else {
+						// Make active
 						this.$element.on('keydown', __bind(this.keyDown, this));
 						this.$element.on('keyup', __bind(this.keyUp, this));
 						this.$element.addClass('font-select-active');
 						this.$drop.show();
 						this.moveToSelected();
 						this.visibleInterval = setInterval(__bind(this.getVisibleFonts, this), 500);
+						this.searchBoxHeight = this.$search.outerHeight();
+
+						if (this.options.searchable) {
+							// Focus search box
+							$('input',this.$search).focus();
+						}
 					}
 
 					this.active = !this.active;
@@ -157,7 +188,7 @@
 				moveToSelected: function() {
 					var font = this.$original.val().replace(/ /g, '+');
 					var $li = font ? $("li[data-value='"+ font +"']", this.$results) : $li = $('li', this.$results).first();
-					this.$results.scrollTop($li.addClass('active')[0].offsetTop);
+					this.$results.scrollTop($li.addClass('active')[0].offsetTop - this.searchBoxHeight);
 				},
 
 				activateFont: function(e) {
@@ -175,9 +206,12 @@
 					this.$original.hide();
 					this.$element = $('<div>', {'class': this.options.style});
 					this.$select = $('<span tabindex="0">'+ this.options.placeholder +'</span>');
+					this.$search = $('<div>', {'class': 'fs-search'});
+					this.$search.append('<input type="text">');
 					this.$drop = $('<div>', {'class': 'fs-drop'});
 					this.$results = $('<ul>', {'class': 'fs-results'});
 					this.$original.after(this.$element.append(this.$select, this.$drop));
+					this.options.searchable && this.$drop.append(this.$search);
 					this.$drop.append(this.$results.append(this.fontsAsHtml())).hide();
 				},
 
@@ -253,7 +287,7 @@
 		})();
 
 		return this.each(function() {
-			// If options exist, let's merge them
+			// If options exist, merge them
 			if (options) { $.extend(settings, options); }
 
 			return new Fontselect(this, settings);

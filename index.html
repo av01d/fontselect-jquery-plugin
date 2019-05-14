@@ -8,7 +8,7 @@
 	<style>
 		body {
 			background-color: #fff;
-			color: #000; 
+			color: #000;
 			font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 		}
 	</style>
@@ -43,7 +43,8 @@
 		// Default system fonts, custom Google fonts
 		$('#font2').fontselect({
 			googleFonts: ['Pacifico', 'Press+Start+2P', 'ZCOOL+KuaiLe', 'Gloria+Hallelujah', 'Changa:200', 'Changa:300', 'Changa:400', 'Changa:500', 'Changa:600', 'Changa:700', 'Changa:800'],
-			placeHolder: 'Pick a font from the list'
+			placeHolder: 'Pick a font from the list',
+			searchable: false
 		})
 		.on('change', function() {
 			applyFont(this.value);
@@ -63,7 +64,7 @@
 <body>
 	<h1>jQuery Fontselect Plugin Example</h1>
 
-	<h2>Default: system fonts and google fonts</h2>
+	<h2>Default: system fonts and Google fonts</h2>
 	<input id="font1" type="text">
 
 	<br>
@@ -71,7 +72,7 @@
 	<br>
 	<button type="button" onclick="$('#font1').trigger('setFont',['Orbitron',900])">Select <i>Oribtron 900</i> font</button>
 
-	<h2>Default system fonts, custom Google fonts</h2>
+	<h2>Default system fonts, custom Google fonts, no search box</h2>
 	<input id="font2" type="text">
 
 	<h2>No system fonts, default Google fonts</h2>

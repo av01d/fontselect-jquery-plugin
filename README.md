@@ -30,6 +30,7 @@ Fontselect has one argument, an options object that you might want to customise:
 * style: the class to give the new font selector
 * placeholder: text to use when no font is selected yet
 * lookahead: a number of fonts to try and preload ahead in the select box
+* searchable: whether or not to show a search box
 * systemFonts: an array of system fonts to present in the select box
 * googleFonts: an array of Google fonts to present in the select box
 
@@ -38,6 +39,7 @@ Fontselect has one argument, an options object that you might want to customise:
       style: 'font-select',
       placeholder: 'Select a font',
       lookahead: 2,
+		searchable: true,
       systemFonts: ['Helvetica', 'Comic+Sans+MS'],
       googleFonts: ['Pacifico', 'Press+Start+2P', 'Changa:200', 'Changa:400', 'Changa:700']
    });
