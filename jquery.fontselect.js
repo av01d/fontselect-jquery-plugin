@@ -4,7 +4,7 @@
  * Based on original by Tom Moor, http://tommoor.com
  * Copyright (c) 2011 Tom Moor, 2019 Arjan Haverkamp
  * MIT Licensed
- * @version 0.3
+ * @version 0.4
 */
 
 (function($){
@@ -17,6 +17,7 @@
 		var settings = {
 			style: 'font-select',
 			placeholder: 'Select a font',
+			placeholderSearch: 'Search...',
 			searchable: true,
 			lookahead: 2,
 			api: 'https://fonts.googleapis.com/css?family=',
@@ -31,7 +32,6 @@
 				if (!o.googleFonts) { o.googleFonts = []; }
 				this.options = o;
 				this.$original = $(original);
-				this.active = false;
 				this.setupHtml();
 				this.getVisibleFonts();
 				this.bindEvents();
@@ -57,7 +57,7 @@
 					this.keyActive = true;
 					if (e.keyCode == 27) {// Escape
 						stop(e);
-						this.toggleDrop();
+						this.toggleDropdown('hide');
 						return;
 					}
 					if (e.keyCode == 38) {// Cursor up
@@ -102,7 +102,7 @@
 					.click(__bind(this.selectFont, this))
 					.mouseover(__bind(this.activateFont, this));
 
-					this.$select.click(__bind(this.toggleDrop, this));
+					this.$select.click(__bind(function() { self.toggleDropdown('show') }, this));
 
 					// Call like so: $("input[name='ffSelect']").trigger('setFont', [fontFamily, fontWeight]);
 					this.$original.on('setFont', function(evt, fontFamily, fontWeight) {
@@ -129,7 +129,7 @@
 					});
 
 					if (this.options.searchable) {
-						$('input',this.$search).on('keyup', function() {
+						this.$input.on('keyup', function() {
 							var q = this.value.toLowerCase();
 							// Hide options that don't match query:
 							$('li', self.$results).each(function() {
@@ -144,14 +144,14 @@
 					}
 
 					$(document).on('click', function(e) {
-						if ($(e.target).closest('.'+self.options.style).length === 0 && self.active) {
-							self.toggleDrop();
+						if ($(e.target).closest('.'+self.options.style).length === 0) {
+							self.toggleDropdown('hide');
 						}
 					});
 				},
 
-				toggleDrop: function() {
-					if (this.active) {
+				toggleDropdown: function(hideShow) {
+					if (hideShow === 'hide') {
 						// Make inactive
 						this.$element.off('keydown keyup');
 						this.query = '';
@@ -169,20 +169,20 @@
 						this.visibleInterval = setInterval(__bind(this.getVisibleFonts, this), 500);
 						this.searchBoxHeight = this.$search.outerHeight();
 
+						/*
 						if (this.options.searchable) {
 							// Focus search box
-							$('input',this.$search).focus();
+							$this.$input.focus();
 						}
+						*/
 					}
-
-					this.active = !this.active;
 				},
 
 				selectFont: function() {
 					var font = $('li.active', this.$results).data('value');
 					this.$original.val(font).change();
 	 				this.updateSelected();
-					this.toggleDrop();
+					this.toggleDropdown('hide'); // Hide dropdown
 				},
 
 				moveToSelected: function() {
@@ -205,9 +205,13 @@
 				setupHtml: function() {
 					this.$original.hide();
 					this.$element = $('<div>', {'class': this.options.style});
-					this.$select = $('<span tabindex="0">'+ this.options.placeholder +'</span>');
+					this.$select = $('<span tabindex="0">' + this.options.placeholder + '</span>');
 					this.$search = $('<div>', {'class': 'fs-search'});
-					this.$search.append('<input type="text">');
+					this.$input = $('<input>', {type:'text'});
+					if (this.options.placeholderSearch) {
+						this.$input.attr('placeholder', this.options.placeholderSearch);
+					}
+					this.$search.append(this.$input);
 					this.$drop = $('<div>', {'class': 'fs-drop'});
 					this.$results = $('<ul>', {'class': 'fs-results'});
 					this.$original.after(this.$element.append(this.$select, this.$drop));
