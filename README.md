@@ -38,6 +38,7 @@ Fontselect has one argument, an options object that you might want to customise:
    $('input.fonts').fontselect({
       style: 'font-select',
       placeholder: 'Select a font',
+		placeholderSearch: 'Search...',
       lookahead: 2,
       searchable: true,
       systemFonts: ['Helvetica', 'Comic+Sans+MS'],
