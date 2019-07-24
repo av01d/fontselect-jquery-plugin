@@ -4,7 +4,7 @@
  * Based on original by Tom Moor, http://tommoor.com
  * Copyright (c) 2011 Tom Moor, 2019 Arjan Haverkamp
  * MIT Licensed
- * @version 0.4
+ * @version 0.5 - 2019-07-24
 */
 
 (function($){
@@ -110,12 +110,12 @@
 
 						var fontSpec = fontFamily.replace(/ /g, '+') + (fontWeight == 400 ? '' : ':'+fontWeight);
 
-						var $li = $("li[data-value='"+ fontSpec +"']", this.$results);
+						var $li = $("li[data-value='"+ fontSpec +"']", self.$results);
 						if ($li.length == 0) {
 							fontSpec = fontFamily.replace(/ /g, '+');
 						}
-						$li = $("li[data-value='"+ fontSpec +"']", this.$results);
-						$('li.active', this.$results).removeClass('active');
+						$li = $("li[data-value='"+ fontSpec +"']", self.$results);
+						$('li.active', self.$results).removeClass('active');
 						$li.addClass('active');
 
 						self.$original.val(fontSpec);
