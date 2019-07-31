@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>jQuery Fontselect Plugin Example</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/github.min.css">
 	<link rel="stylesheet" type="text/css" href="jquery.fontselect.css">
 	<style>
 		body {
@@ -11,7 +12,40 @@
 			color: #000;
 			font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 		}
+
+		button {
+			background-color: #4caf50;
+			color: #fff;
+			padding: 5px 10px;
+			text-align: center;
+			display: inline-block;
+			font-size: 16px;
+			border-radius: 5px;
+			border: 1px solid #080;
+			margin: 2px 0;
+		}
+
+		tt {
+			background-color: #eff0f1;
+			padding: 4px;
+		}
+
+		.example > div {
+			margin-top: 15px;
+		}
+
+		@media (min-width: 768px) {
+			.example {
+				display: flex;
+			}
+			.example > div, .example > pre {
+				flex: 1;
+				margin: 0 10px 0 0;
+			}
+		}
+
 	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	<script src="jquery.fontselect.js"></script>
 	<script>
@@ -32,30 +66,13 @@
 		$('p').css({fontFamily:"'"+fontFamily+"'", fontWeight:fontWeight});
 	}
 
-	$(function(){
-		// Default
-		$('#font1')
-		.fontselect()
-		.on('change', function() {
-			applyFont(this.value);
+	$(function() {
+		// Highlight code samples:
+		hljs.configure({
+			tabReplace: '   ', // 3 spaces
 		});
-
-		// Default system fonts, custom Google fonts
-		$('#font2').fontselect({
-			googleFonts: ['Pacifico', 'Press+Start+2P', 'ZCOOL+KuaiLe', 'Gloria+Hallelujah', 'Changa:200', 'Changa:300', 'Changa:400', 'Changa:500', 'Changa:600', 'Changa:700', 'Changa:800'],
-			placeHolder: 'Pick a font from the list',
-			searchable: false
-		})
-		.on('change', function() {
-			applyFont(this.value);
-		});
-
-		// No system fonts, default Google fonts
-		$('#font3').fontselect({
-			systemFonts: false,
-		})
-		.on('change', function() {
-			applyFont(this.value);
+		$('pre code').each(function() {
+			hljs.highlightBlock(this);
 		});
 	});
 
@@ -64,23 +81,169 @@
 <body>
 	<h1>jQuery Fontselect Plugin Example</h1>
 
-	<h2>Default: system fonts and Google fonts</h2>
-	<input id="font1" type="text">
+	<!-- Example 1 -->
+	<h2>Example 1: Fully default</h2>
+	<p>Default configuration. Dropdown shows a list of default system fonts, as well as
+      an extensive list of Google fonts.</p>
+	<div class="example">
+		<pre><code class="html">
+&lt;input id="font1" type="text"&gt;
 
+&lt;script&gt;
+$('#font1')
+.fontselect()
+.on('change', function() {
+	applyFont(this.value);
+});
+&lt;/script&gt;
+		</code></pre>
+		<div>
+			<input id="font1" type="text">
+			<br>
+			<button type="button" onclick="$('#font1').trigger('setFont','Geo')">Select <i>Geo</i> font</button>
+			<button type="button" onclick="$('#font1').trigger('setFont',['Orbitron',900])">Select <i>Oribtron 900</i> font</button>
+			<script>
+				$('#font1')
+				.fontselect()
+				.on('change', function() {
+					applyFont(this.value);
+				});
+			</script>
+		</div>
+	</div>
+	<!-- /Example 1 -->
+
+	<!-- Example 2 -->
+	<h2>Example 2: Default system fonts, custom Google fonts, no search box</h2>
+	<p>The dropdown shows the default list of system fonts. The list of Google fonts the user can choose from is customized. The search box is disabled and a placeholder text is set.</p>
+	<div class="example">
+		<pre><code class="html">
+&lt;input id="font2" type="text"&gt;
+
+&lt;script&gt;
+$('#font2').fontselect({
+	googleFonts: [
+		'Pacifico', 'Press+Start+2P',
+		'ZCOOL+KuaiLe', 'Gloria+Hallelujah',
+		'Changa:200', 'Changa:300',
+		'Changa:400', 'Changa:500'
+	],
+	placeholder: 'Pick a font from the list',
+	searchable: false
+})
+.on('change', function() {
+	applyFont(this.value);
+});
+&lt;/script&gt;
+		</code></pre>
+		<div>
+			<input id="font2" type="text">
+			<script>
+				$('#font2').fontselect({
+					googleFonts: [
+						'Pacifico', 'Press+Start+2P',
+						'ZCOOL+KuaiLe', 'Gloria+Hallelujah',
+						'Changa:200', 'Changa:300',
+						'Changa:400', 'Changa:500'
+					],
+					placeholder: 'Pick a font from the list',
+					searchable: false
+				})
+				.on('change', function() {
+					applyFont(this.value);
+				});
+			</script>
+		</div>
+	</div>
+	<!-- Example 2 -->
+
+	<!-- Example 3 -->
+	<h2>Example 3: No system fonts, default Google fonts</h2>
+	<p>The dropdown only shows (the default list of) Google fonts. The search box is enabled, but has an overridden placeholder text. The lookahead is increased to 4.</p>
+
+	<div class="example">
+		<pre><code class="html">
+&lt;input id="font3" type="text" value="Caudex"&gt;
+
+&lt;script&gt;
+$('#font3').fontselect({
+	systemFonts: false,
+	placeholderSearch: 'Type to search...',
+	lookahead: 4
+})
+.on('change', function() {
+	applyFont(this.value);
+});
+&lt;/script&gt;
+		</code></pre>
+		<div>
+			<input id="font3" type="text" value="Caudex">
+			<script>
+				$('#font3').fontselect({
+					systemFonts: false,
+					placeholderSearch: 'Type to search...',
+					lookahead: 4
+				})
+				.on('change', function() {
+					applyFont(this.value);
+				});
+			</script>
+		</div>
+	</div>
+	<!-- /Example 3 -->
+
+	<!-- Example 4 -->
+	<h2>Example 4: Custom system fonts, local .woff fonts, some Google fonts</h2>
+	<p>The dropdown shows just 3 system fonts, as well as a few custom (local) fonts. There are a few Google fonts to choose from as well.
 	<br>
-	<button type="button" onclick="$('#font1').trigger('setFont','Geo')">Select <i>Geo</i> font</button>
+	The local font files have to be in Woff format (for best compatibility with as many
+	browsers as possible), and they should all be put in a single folder, under the
+	document root folder of your site. Something like <tt>/fonts</tt> makes sense.
+	Provide the path to this folder as the <tt>localFontsUrl</tt> configuration parameter.
 	<br>
-	<button type="button" onclick="$('#font1').trigger('setFont',['Orbitron',900])">Select <i>Oribtron 900</i> font</button>
+	In this specific example, there are 3 files in the <tt>htdocs/fonts</tt> folder:
+	</p>
+	<pre>
+	Action Man.woff
+	Bauer.woff
+	Bubble.woff
+	</pre>
+	<p>Make sure the font files are named the same as the font names you provide in the
+	<tt>localFonts</tt> array.
+	</p>
 
-	<h2>Default system fonts, custom Google fonts, no search box</h2>
-	<input id="font2" type="text">
+	<div class="example">
+		<pre><code class="html">
+&lt;input id="font4" type="text" value="Bauer"&gt;
 
-	<h2>No system fonts, default Google fonts</h2>
-	<input id="font3" type="text" value="Caudex">
+&lt;script&gt;
+$('#font4').fontselect({
+	systemFonts: ['Arial','Times+New+Roman', 'Verdana'],
+	localFonts: ['Action+Man', 'Bauer', 'Bubble'],
+	googleFonts: ['Piedra', 'Questrial', 'Ribeye'],
+	localFontsUrl: 'fonts/' // End with a slash!
+})
+.on('change', function() {
+	applyFont(this.value);
+});
+&lt;/script&gt;
+		</code></pre>
+		<div>
+			<input id="font4" type="text" value="Bauer">
+			<script>
+				$('#font4').fontselect({
+					systemFonts: ['Arial','Times+New+Roman', 'Verdana'],
+					localFonts: ['Action Man', 'Bauer', 'Bubble'],
+					googleFonts: ['Piedra', 'Questrial', 'Ribeye'],
+					localFontsUrl: 'fonts/' // End with a slash!
+				})
+				.on('change', function() {
+					applyFont(this.value);
+				});
+			</script>
+		</div>
+	</div>
+	<!-- /Example 4 -->
 
-
-	<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus
-PageMaker including versions of Lorem Ipsum.</p>
-
-	</body>
+</body>
 </html>

@@ -1,6 +1,6 @@
 # Fontselect jQuery Plugin
 
-A font selector to choose from fonts from the Google Web Fonts api, as well as system fonts. 
+A font selector to choose from fonts from the Google Web Fonts api, custom WOFF fonts, as well as system fonts.
 Let users easily select and preview a font from Google's large range of free fonts.
 This plugin mimics an original select element as closely as possible, even keyboard
 navigation is built in:
@@ -27,12 +27,14 @@ To create a font selector simply run the plugin on a standard html input element
 
 Fontselect has one argument, an options object that you might want to customise:
 
-* style: the class to give the new font selector
-* placeholder: text to use when no font is selected yet
-* lookahead: a number of fonts to try and preload ahead in the select box
-* searchable: whether or not to show a search box
-* systemFonts: an array of system fonts to present in the select box
-* googleFonts: an array of Google fonts to present in the select box
+* style: the class to give the new font selector. Default: `font-select`
+* placeholder: text to use when no font is selected yet. Default: `Select a font`
+* lookahead: a number of fonts to try and preload ahead in the select box. Default: `Search...`
+* searchable: whether or not to show a search box. Default: `true`
+* systemFonts: an array of system fonts to present in the select box. Substitute spaces in a font name with `+`. Default: `['Arial', 'Helvetica+Neue', 'Courier+New', 'Times+New+Roman', 'Comic+Sans+MS', 'Verdana', 'Impact']`
+* googleFonts: an array of Google fonts to present in the select box. Substitute spaces in a font name with `+`. Default: a long list
+* localFonts: an array of local fonts to present in the select box. Default: `[]`
+* localFontsUrl: Path to folder where local fonts are stored (in .woff format). Default: `/fonts/`
 
 ```
    $('input.fonts').fontselect({
@@ -42,9 +44,18 @@ Fontselect has one argument, an options object that you might want to customise:
       lookahead: 2,
       searchable: true,
       systemFonts: ['Helvetica', 'Comic+Sans+MS'],
-      googleFonts: ['Pacifico', 'Press+Start+2P', 'Changa:200', 'Changa:400', 'Changa:700']
+      googleFonts: ['Pacifico', 'Press+Start+2P', 'Changa:200', 'Changa:400', 'Changa:700'],
+      localFonts: ['Action+Man', 'Bauer', 'Bubble'],
+      localFontsUrl: '/fonts/' // End with a slash!
    });
 ```
+
+### Local fonts
+
+The Google Fonts Repository doesn't always offer enough options. This plugin allows you to present
+custom fonts as well. The local font files have to be in `.woff` (not `.ttf`) format (for best compatibility with as many browsers as possible), and they should all be put in a single folder, under the document root folder of your site. Something like `/fonts/` makes sense.
+Provide the path to this folder as the `localFontsUrl` configuration parameter.
+You can convert `.otf/.ttf` fonts to `.woff` on [transfonter.org](https://transfonter.org/).
 
 ### Methods
 
@@ -59,8 +70,8 @@ or
 
 ### Events
 
-Fontselect triggers the change event on the original element when a font is selected. 
-An example is included to show how this could be used to update the font on the current page.
+Fontselect triggers the change event on the original element when a font is selected.
+See this example for how this could be used to update the font on the current page.
 
 ```
    $('input.fonts').fontselect().on('change', function(){
@@ -73,6 +84,8 @@ An example is included to show how this could be used to update the font on the 
       var fontWeight = font[1] || 400;
 
       console.log('Font family', fontFamily, 'Font weight', fontWeight);
+
+		$('body').css({fontFamily:"'"+fontFamily+"'", fontWeight:fontWeight});
    });
 ```
 
