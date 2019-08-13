@@ -85,7 +85,7 @@ See this example for how this could be used to update the font on the current pa
 
       console.log('Font family', fontFamily, 'Font weight', fontWeight);
 
-		$('body').css({fontFamily:"'"+fontFamily+"'", fontWeight:fontWeight});
+      $('body').css({fontFamily:"'"+fontFamily+"'", fontWeight:fontWeight});
    });
 ```
 
