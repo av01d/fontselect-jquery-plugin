@@ -281,7 +281,7 @@
 						bottom += li * this.options.lookahead;
 					}
 
-					$('li', this.$results).each(function(){
+					$('li:visible', this.$results).each(function(){
 						var ft = $(this).position().top+top;
 						var fb = ft + $(this).height();
 
