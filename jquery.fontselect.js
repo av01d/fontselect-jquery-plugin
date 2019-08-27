@@ -5,7 +5,7 @@
  * Based on original by Tom Moor, http://tommoor.com
  * Copyright (c) 2011 Tom Moor, 2019 Arjan Haverkamp
  * MIT Licensed
- * @version 0.6 - 2019-07-31
+ * @version 0.7 - 2019-08-27
  * @url https://github.com/av01d/fontselect-jquery-plugin
  */
 

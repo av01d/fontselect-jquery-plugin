@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.7] - 2019-08-27
+### Fixed
+- Fixed issue #4: Searching for a non-existing font would load all fonts.
+
 ## [0.6] - 2019-07-31
 ### Fixed
 - List items can no longer wrap on whitespace (caused ugly line breaks in the dropdown).
