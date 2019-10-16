@@ -125,7 +125,7 @@
 						self.$original.val(fontSpec);
 						self.updateSelected();
 						self.addFontLink($li.data('value'));
-						$li.trigger('click');
+						//$li.trigger('click'); // Removed 2019-10-16
 					});
 					this.$original.on('change', function() {
 						self.updateSelected();

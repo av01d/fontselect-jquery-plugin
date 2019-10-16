@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.8] - 2019-10-16
+### Changed
+- Calling `trigger('setFont')` would automatically trigger the `change` event on the
+  original input box. This isn't always expected/desired behavior.
+  In this version, the `change` event is no longer triggered automatically when `setFont`
+  is called.
+  If you want to both set a font and trigger the `change` event, you now have to do it like so:
+  ```
+  $('#font1').trigger('setFont','Geo').trigger('change');
+  ```
+
 ## [0.7] - 2019-08-27
 ### Fixed
 - Fixed issue #4: Searching for a non-existing font would load all fonts.

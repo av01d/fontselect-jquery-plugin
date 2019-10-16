@@ -68,6 +68,16 @@ or
    $('#font').trigger('setFont',['Orbitron', 900]); // Select 'Orbitron:900' font
 ```
 
+If you want to call the `change` event on the input element as well, do this:
+```
+   $('#font').trigger('setFont','Geo').trigger('change'); // Select 'Geo' font
+```
+or
+```
+   $('#font').trigger('setFont',['Orbitron', 900]).trigger('change'); // Select 'Orbitron:900' font
+```
+
+
 ### Events
 
 Fontselect triggers the change event on the original element when a font is selected.
