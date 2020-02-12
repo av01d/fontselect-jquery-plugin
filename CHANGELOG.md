@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.9] - 2020-02-12
+### Changes
+- The list of Google Fonts wasn't complete: there were more Google Fonts than
+  this plugin would show. 
+  This release fixes this: all available Google fonts (977 of them, at the time of writing) are now included.
+- Minified css and js files are now included.
+
 ## [0.8] - 2019-10-16
 ### Changed
 - Calling `trigger('setFont')` would automatically trigger the `change` event on the
