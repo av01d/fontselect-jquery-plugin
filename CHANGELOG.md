@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0] - 2020-02-26
+This is the final version of the jQuery fontSelect plugin.
+I've released a successor with more functionality and flexibility: [Fontpicker jQuery Plugin](https://av01d.github.io/fontpicker-jquery-plugin/)
+Please check it out and migrate to this new one, with the benefit of continued support and updates.
+
 ## [0.9] - 2020-02-12
 ### Changes
 - The list of Google Fonts wasn't complete: there were more Google Fonts than
@@ -43,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   Use `options.localFonts = ['Action+Man','Bubble','Bauer']`, and make sure that
   `options.localFontsUrl` (default: `/fonts/`) contains the path to the directory
   that holds your .woff fonts.
-  See the [demo page](https://av01d.github.io/fontselect-jquery-plugin/index.html) for an example.
+  See the [demo page](https://av01d.github.io/fontselect-jquery-plugin/) for an example.
 
 ## [0.5] - 2019-07-24
 ### Fixed

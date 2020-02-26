@@ -56,14 +56,26 @@
 		// Replace + signs with spaces for css
 		font = font.replace(/\+/g, ' ');
 
-		// Split font into family and weight
+		// Split font into family and weight/style
 		font = font.split(':');
 
 		var fontFamily = font[0];
-		var fontWeight = font[1] || 400;
+		var fontSpecs = font[1] || null;
+		var italic = false, fontWeight = 400;
+
+		if (/italic/.test(fontSpecs)) {
+			italic = true;
+			fontSpecs = fontSpecs.replace('italic','');
+		}
+		fontWeight = +fontSpecs;
 
 		// Set selected font on paragraphs
-		$('p').css({fontFamily:"'"+fontFamily+"'", fontWeight:fontWeight});
+		var css = {
+			fontFamily: "'"+fontFamily+"'",
+			fontWeight: fontWeight,
+			fontStyle: italic ? 'italic' : 'normal'
+		};
+		$('p').css(css);
 	}
 
 	$(function() {
@@ -100,7 +112,7 @@ $('#font1')
 		<div>
 			<input id="font1" type="text">
 			<br>
-			<button type="button" onclick="$('#font1').trigger('setFont','Geo').trigger('change')">Select <i>Geo</i> font</button>
+			<button type="button" onclick="$('#font1').trigger('setFont',['Geo',400]).trigger('change')">Select <i>Geo 400</i> font</button>
 			<button type="button" onclick="$('#font1').trigger('setFont',['Open Sans',800]).trigger('change')">Select <i>Opens Sans 800</i> font</button>
 			<script>
 				$('#font1')
