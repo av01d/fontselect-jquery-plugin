@@ -17,6 +17,7 @@
 		var __bind = function(fn, me) { return function(){ return fn.apply(me, arguments); }; };
 
 		var settings = {
+			styleTarget: $( 'head' ),
 			style: 'font-select',
 			placeholder: 'Select a font',
 			placeholderSearch: 'Search...',
@@ -1099,25 +1100,10 @@
 					this.$select.click(__bind(function() { self.toggleDropdown('show') }, this));
 
 					// Call like so: $("input[name='ffSelect']").trigger('setFont', [fontFamily, fontWeight]);
-					this.$original.on('setFont', function(evt, fontFamily, fontWeight) {
-						fontWeight = fontWeight || 400;
-
-						var fontSpec = fontFamily.replace(/ /g, '+') + ':' + fontWeight;
-
-						var $li = $("li[data-value='"+ fontSpec +"']", self.$results);
-						if ($li.length == 0) {
-							fontSpec = fontFamily.replace(/ /g, '+');
-						}
-						console.log(fontSpec);
-						$li = $("li[data-value='"+ fontSpec +"']", self.$results);
-						$('li.active', self.$results).removeClass('active');
-						$li.addClass('active');
-
-						self.$original.val(fontSpec);
-						self.updateSelected();
-						self.addFontLink($li.data('value'));
-						//$li.trigger('click'); // Removed 2019-10-16
+					this.$original.on('setFont', function(e, fontFamily, fontWeight) {
+						self.setFont(fontFamily, fontWeight);
 					});
+
 					this.$original.on('change', function() {
 						self.updateSelected();
 						self.addFontLink($('li.active', self.$results).data('value'));
@@ -1177,7 +1163,7 @@
 				selectFont: function() {
 					var font = $('li.active', this.$results).data('value');
 					this.$original.val(font).change();
-	 				this.updateSelected();
+					this.updateSelected();
 					this.toggleDropdown('hide'); // Hide dropdown
 				},
 
@@ -1196,6 +1182,25 @@
 				updateSelected: function() {
 					var font = this.$original.val();
 					$('span', this.$element).text(this.toReadable(font)).css(this.toStyle(font));
+				},
+
+				setFont: function(fontFamily, fontWeight) {
+					fontWeight = fontWeight || 400;
+
+					var fontSpec = fontFamily.replace(/ /g, '+') + ':' + fontWeight;
+
+					var $li = $("li[data-value='"+ fontSpec +"']", this.$results);
+					if ($li.length == 0) {
+						fontSpec = fontFamily.replace(/ /g, '+');
+					}
+					console.log(fontSpec);
+					$li = $("li[data-value='"+ fontSpec +"']", this.$results);
+					$('li.active', this.$results).removeClass('active');
+					$li.addClass('active');
+
+					this.$original.val(fontSpec);
+					this.updateSelected();
+					this.addFontLink($li.data('value'));
 				},
 
 				setupHtml: function() {
@@ -1292,24 +1297,46 @@
 					fontsLoaded[font] = true;
 
 					if (this.options.googleFonts.indexOf(font) > -1) {
-						$('link:last').after('<link href="' + this.options.googleApi + font + '" rel="stylesheet" type="text/css">');
+						$(this.options.styleTarget).after('<link jq-fontselect href="' + this.options.googleApi + font + '" rel="stylesheet" type="text/css">');
 					}
 					else if (this.options.localFonts.indexOf(font) > -1) {
 						font = this.toReadable(font);
-						$('head').append("<style> @font-face { font-family:'" + font + "'; font-style:normal; font-weight:400; src:local('" + font + "'), url('" + this.options.localFontsUrl + font + ".woff') format('woff'); } </style>");
+						$(this.options.styleTarget).append("<style jq-fontselect> @font-face { font-family:'" + font + "'; font-style:normal; font-weight:400; src:local('" + font + "'), url('" + this.options.localFontsUrl + font + ".woff') format('woff'); } </style>");
 					}
 					// System fonts need not be loaded!
+				},
+
+				getLoadedFonts: function() {
+					return fontsLoaded;
 				}
 			}; // End prototype
 
 			return Fontselect;
 		})();
 
-		return this.each(function() {
-			// If options exist, merge them
-			if (options) { $.extend(settings, options); }
+		if (options === undefined || _typeof(options) === 'object') {
+			this.each(function() {
+				var plugin = new Fontselect(this, $.extend({}, settings, options));
 
-			return new Fontselect(this, settings);
-		});
+				$(this).data('_fontselect', plugin);
+
+				return plugin;
+			} );
+
+			return $(this);
+		}
+		else if (typeof options === 'string' && ['setFont', 'getLoadedFonts'].indexOf(options) >= 0) {
+			var returns = undefined;
+
+			this.each(function() {
+				var instance = $(this).data('_fontselect');
+
+				if (instance && typeof instance[options] === 'function') {
+					returns = instance[options].apply(instance, Array.prototype.slice.call(arguments, 1));
+				}
+			} );
+
+			return returns !== undefined ? returns : $(this);
+		};
 	};
 })(jQuery);
