@@ -1193,7 +1193,6 @@
 					if ($li.length == 0) {
 						fontSpec = fontFamily.replace(/ /g, '+');
 					}
-					console.log(fontSpec);
 					$li = $("li[data-value='"+ fontSpec +"']", this.$results);
 					$('li.active', this.$results).removeClass('active');
 					$li.addClass('active');
