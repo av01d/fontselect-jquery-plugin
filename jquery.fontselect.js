@@ -1313,7 +1313,7 @@
 			return Fontselect;
 		})();
 
-		if (options === undefined || _typeof(options) === 'object') {
+		if (options === undefined || typeof(options) === 'object') {
 			this.each(function() {
 				var plugin = new Fontselect(this, $.extend({}, settings, options));
 
