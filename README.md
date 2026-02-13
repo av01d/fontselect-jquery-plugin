@@ -1,6 +1,10 @@
-# Fontselect jQuery Plugin
+# Deprecation notice
 
-*A successor of this plugin has been released! Please check it out here: [jQuery Fontpicker Plugin](https://github.com/av01d/fontpicker-jquery-plugin).*
+***This FontPicker is deprecated and no longer maintained. Don't worry though, we've created a very capable replacement:
+[JSFontPicker](https://www.jsfontpicker.com). This new plugin does no longer depend on jQuery (it's vanilla JS) and is much more modern.
+Please make the switch, you won't regret it!***
+
+# Fontselect jQuery Plugin
 
 A font selector to choose from fonts from the Google Web Fonts api, custom WOFF fonts, as well as system fonts.
 Let users easily select and preview a font from Google's large range of free fonts.
